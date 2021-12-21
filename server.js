@@ -18,32 +18,7 @@ const io = new Server(server);
         // socket.on('disconnect', () => {
         //   console.log('Un utilisateur est parti');
         // });
-        socket.on('join', ({ name, room }, callback) => {
- 
-          const { error, user } = addUser(
-              { id: socket.id, name, room });
-   
-          if (error) return callback(error);
-   
-          // Emit will send message to the user
-          // who had joined
-          socket.emit('message', { user: 'admin', text:
-              `${user.name},
-              welcome to room ${user.room}.` });
-   
-          // Broadcast will send message to everyone
-          // in the room except the joined user
-          socket.broadcast.to(user.room)
-              .emit('message', { user: "admin",
-              text: `${user.name}, has joined` });
-   
-          socket.join(user.room);
-   
-          io.to(user.room).emit('roomData', {
-              room: user.room,
-              users: getUsersInRoom(user.room)
-          });
-          callback();
+        
       });
 
 server.listen(3000, () => {
